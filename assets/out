@@ -1,0 +1,56 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+exec 3>&1 # make stdout available as fd 3 for the result
+exec 1>&2 # redirect all output to stderr for logging
+
+# Read inputs
+payload=$(mktemp $TMPDIR/request-payload.XXXXXX)
+cat > $payload <&0
+
+export url=$(jq -r '.source.url // ""' < $payload)
+export username=$(jq -r '.source.username // ""' < $payload)
+export password=$(jq -r '.source.password // ""' < $payload)
+export space=$(jq -r '.source.space // ""' < $payload)
+
+export ancestor=$(jq -r '.source.ancestor // ""' < $payload)
+export path=$(jq -r '.source.path // ""' < $payload)
+# override with params value if present
+export ancestor=$(jq -r '.params.ancestor // "'"$ancestor"'"' < $payload)
+export path=$(jq -r '.params.path // "'"$path"'"' < $payload)
+
+if [ -z "$url" ]; then
+  echo "invalid payload (missing url)"
+  exit 1
+fi
+if [ -z "$username" ]; then
+  echo "invalid payload (missing username)"
+  exit 1
+fi
+if [ -z "$password" ]; then
+  echo "invalid payload (missing password)"
+  exit 1
+fi
+if [ -z "$space" ]; then
+  echo "invalid payload (missing space)"
+  exit 1
+fi
+if [ -z "$ancestor" ]; then
+  echo "invalid payload (missing ancestor)"
+  exit 1
+fi
+if [ -z "$path" ]; then
+  echo "invalid payload (missing path)"
+  exit 1
+fi
+
+cd "$1"
+
+envsubst \
+< /pom.template.xml \
+> pom.xml
+
+mvn \
+  org.sahli.asciidoc.confluence.publisher:asciidoc-confluence-publisher-maven-plugin:publish
