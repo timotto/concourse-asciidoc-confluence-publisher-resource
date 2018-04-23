@@ -15,5 +15,3 @@ RUN \
 ADD pom.template.xml /pom.template.xml
 
 ADD assets /opt/resource
-
-ENTRYPOINT ["bash"]
