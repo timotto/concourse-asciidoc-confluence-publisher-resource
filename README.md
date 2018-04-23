@@ -1,6 +1,6 @@
 # Concourse Asciidoc Confluence Publisher Resource
 
-A Concourse resource that uses a set of libraries and plugins that allows the publication of asciidoc documentation to Atlassian Confluence made possible by the [Confluence Publisher](https://github.com/alainsahli/confluence-publisher) Maven plugin.
+A Concourse resource that uses the [Confluence Publisher](https://github.com/alainsahli/confluence-publisher) Maven plugin to publish asciidoc documentation to Atlassian Confluence.
 
 All requirements of Confluence Publisher apply, eg the directory structure of asciidoc files.
 
