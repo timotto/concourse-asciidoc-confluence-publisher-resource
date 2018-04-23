@@ -34,7 +34,7 @@ resource_types:
 
 ## Example
 
-### Trigger on new version
+### Upload generated documentation
 
 Define the resource:
 
