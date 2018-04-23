@@ -55,5 +55,5 @@ envsubst \
 mvn \
   org.sahli.asciidoc.confluence.publisher:asciidoc-confluence-publisher-maven-plugin:publish
 
-echo '{"version": { "version": "none" }' \
+echo '{"version": { "version": "none" } }' \
 >&3
